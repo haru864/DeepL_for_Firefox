@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+    "name": "DeepL for Firefox",
+    "version": "1.0",
+    "description": "Adds a solid red border to all webpages matching mozilla.org.",
+    "icons": {
+        "48": "icons/DeepL-48.png",
+        "96": "icons/DeepL-96.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.mozilla.org/*"
+            ],
+            "js": [
+                "src/DeepL.js"
+            ]
+        }
+    ]
+}

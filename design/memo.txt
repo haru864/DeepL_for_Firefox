@@ -1,0 +1,9 @@
+# 初めての拡張機能
+https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension
+
+
+機能
+　・全文翻訳して表示しなおす
+　・選択した部分だけ訳してサイドに表示
+
+
