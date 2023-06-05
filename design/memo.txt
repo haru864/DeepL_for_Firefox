@@ -1,6 +1,9 @@
 # 初めての拡張機能
 https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension
 
+# ブラウザー拡張機能
+https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions
+
 
 機能
 　・全文翻訳して表示しなおす
