@@ -17,7 +17,8 @@
         "default_popup": "popup/turn_on_off.html"
     },
     "permissions": [
-        "menus"
+        "menus",
+        "activeTab"
     ],
     "background": {
         "scripts": [

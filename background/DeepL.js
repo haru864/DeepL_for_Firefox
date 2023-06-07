@@ -1,4 +1,5 @@
 let isMenuEnabled = false;
+let deeplAuthKey;
 
 function updateMenu() {
     browser.menus.removeAll();
@@ -32,20 +33,27 @@ function updateMenu() {
 }
 
 browser.runtime.onMessage.addListener((message) => {
-    console.log('message -> ' + message);
-    console.log('message.command -> ' + message.command);
     if (message.command === "turn_on") {
         isMenuEnabled = true;
+        updateMenu();
     } else if (message.command === "turn_off") {
         isMenuEnabled = false;
+        updateMenu();
+    } else if (message.authKey) {
+        deeplAuthKey = message.authKey;
     }
-    updateMenu();
+});
+
+browser.menus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId === "DeepL_translate_selection") {
+        browser.tabs.executeScript(tab.id, {
+            code: 'window.getSelection().toString();'
+        })
+            .then(result => {
+                console.log('Selected text: ' + result[0]);
+            });
+    }
 });
 
 updateMenu();
-console.log('load DeepL.js');
-
-
-
-
 
