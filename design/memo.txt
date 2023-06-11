@@ -10,7 +10,6 @@ https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions
 ・全文翻訳して表示しなおす
 ・選択した部分だけ訳してサイドに表示
 
+＃ 改善
+・日⇨英以外の翻訳を設定できるようにしたい
 
-DeepL Auth Key をハードコーディングしている。
-自分以外使えないので、拡張機能を読み込んだときにブラウザに
-ポップアップを表示して、そこから設定するようにしたい。

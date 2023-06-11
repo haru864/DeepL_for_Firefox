@@ -1,5 +1,7 @@
 let isMenuEnabled = false;
 let deeplAuthKey = 'not registered';
+const source_lang = 'EN';
+const target_lang = 'JA';
 
 function updateMenu() {
     browser.menus.removeAll();
@@ -32,37 +34,54 @@ function updateMenu() {
     }
 }
 
-function sendMessageToCurrentActiveTab(json) {
+function sendJsonToCurrentActiveTab(json) {
     browser.tabs.query({ active: true, currentWindow: true }).then(tabs => {
         browser.tabs.sendMessage(tabs[0].id, json);
     });
 }
 
-browser.runtime.onMessage.addListener((message) => {
-    if (message.command === "turn_on") {
+async function fetchFromDeepL(sentence) {
+    const url = 'https://api-free.deepl.com/v2/translate?'
+        + 'auth_key=' + deeplAuthKey
+        + '&text=' + sentence
+        + '&source_lang=' + source_lang
+        + '&target_lang=' + target_lang;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.translations[0].text;
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
+
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.command === "turn_on") {
         isMenuEnabled = true;
         updateMenu();
-    } else if (message.command === "turn_off") {
+    } else if (request.command === "turn_off") {
         isMenuEnabled = false;
         updateMenu();
-    } else if (message.command === "display_auth_key") {
+    } else if (request.command === "display_auth_key") {
         let json = { "command": "displayAuthKey", "currentAuthKey": deeplAuthKey };
-        sendMessageToCurrentActiveTab(json);
-    } else if (message.command === "updateAuthKey") {
-        deeplAuthKey = message.newAuthKey;
+        sendJsonToCurrentActiveTab(json);
+    } else if (request.command === "updateAuthKey") {
+        deeplAuthKey = request.newAuthKey;
     }
 });
 
-browser.menus.onClicked.addListener((info, tab) => {
+browser.menus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === "DeepL_translate_selection") {
-        browser.tabs.executeScript(tab.id, {
+        const targetSentence = await browser.tabs.executeScript(tab.id, {
             code: 'window.getSelection().toString();'
-        })
-            .then(result => {
-                console.log('Selected text: ' + result[0]);
-            });
+        });
+        // console.log('targetSentence: ' + targetSentence);
+        const translation = await fetchFromDeepL(targetSentence);
+        // console.log('translation: ' + translation);
+        browser.sidebarAction.setPanel({ panel: 'sidebar/sidebar.html' });
+        browser.runtime.sendMessage({ "command": "show_translation", "translation": translation });
     }
 });
 
 updateMenu();
-
