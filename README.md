@@ -22,5 +22,8 @@ First, display the sidebar and select the source and target languages.
 - target language 
   - Translated into the language selected here
 
-Drag the mouse over the language you want to translate and right-click and select "DeepL ⇨ translate selection".  
+Second, click on the icon from the toolbar button to toggle on/off and set the authentication key.  
+The authentication key should be the one provided in the DeepL API Free plan.  
+
+Then, drag the mouse over the sentence you want to translate and right-click and select "DeepL" and "translate selection".  
 Translation results are displayed in the sidebar.
