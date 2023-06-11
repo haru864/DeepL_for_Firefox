@@ -37,6 +37,10 @@
         }
     ],
     "sidebar_action": {
+        "default_icon": {
+            "48": "icons/DeepL-48.png",
+            "96": "icons/DeepL-96.png"
+        },
         "default_panel": "sidebar/sidebar.html"
     }
 }

@@ -1,9 +1,97 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+    <title>DeepL for Firefox</title>
+    <style>
+        .div-margin {
+            margin-bottom: 20px;
+            /* div要素間に20ピクセルの空白行 */
+        }
+    </style>
+</head>
+
 <body>
-    <div>[translation result]</div>
-    <div id="translation">(The translation results are displayed here)</div>
+    <div>
+        <label for="source_lang">Choose source language:</label>
+        <select name="source_lang" id="source_lang">
+            <option value="BG">Bulgarian</option>
+            <option value="CS">Czech</option>
+            <option value="DA">Danish</option>
+            <option value="DE">German</option>
+            <option value="EL">Greek</option>
+            <option value="EN" selected>English</option>
+            <option value="ES">Spanish</option>
+            <option value="ET">Estonian</option>
+            <option value="FI">Finnish</option>
+            <option value="FR">French</option>
+            <option value="HU">Hungarian</option>
+            <option value="ID">Indonesian</option>
+            <option value="IT">Italian</option>
+            <option value="JA">Japanese</option>
+            <option value="KO">Korean</option>
+            <option value="LT">Lithuanian</option>
+            <option value="LV">Latvian</option>
+            <option value="NB">Norwegian (Bokmål)</option>
+            <option value="NL">Dutch</option>
+            <option value="PL">Polish</option>
+            <option value="PT">Portuguese (all Portuguese varieties mixed)</option>
+            <option value="RO">Romanian</option>
+            <option value="RU">Russian</option>
+            <option value="SK">Slovak</option>
+            <option value="SL">Slovenian</option>
+            <option value="SV">Swedish</option>
+            <option value="TR">Turkish</option>
+            <option value="UK">Ukrainian</option>
+            <option value="ZH">Chinese</option>
+        </select>
+    </div>
+    <div>
+        <label for="target_lang">Choose target language:</label>
+        <select name="target_lang" id="target_lang">
+            <option value="BG">Bulgarian</option>
+            <option value="CS">Czech</option>
+            <option value="DA">Danish</option>
+            <option value="DE">German</option>
+            <option value="EL">Greek</option>
+            <option value="EN">English (unspecified variant for backward compatibility; please select EN-GB or EN-US
+                instead)</option>
+            <option value="EN-GB">English (British)</option>
+            <option value="EN-US">English (American)</option>
+            <option value="ES">Spanish</option>
+            <option value="ET">Estonian</option>
+            <option value="FI">Finnish</option>
+            <option value="FR">French</option>
+            <option value="HU">Hungarian</option>
+            <option value="ID">Indonesian</option>
+            <option value="IT">Italian</option>
+            <option value="JA" selected>Japanese</option>
+            <option value="KO">Korean</option>
+            <option value="LT">Lithuanian</option>
+            <option value="LV">Latvian</option>
+            <option value="NB">Norwegian (Bokmål)</option>
+            <option value="NL">Dutch</option>
+            <option value="PL">Polish</option>
+            <option value="PT">Portuguese (unspecified variant for backward compatibility; please select PT-BR or PT-PT
+                instead)</option>
+            <option value="PT-BR">Portuguese (Brazilian)</option>
+            <option value="PT-PT">Portuguese (all Portuguese varieties excluding Brazilian Portuguese)</option>
+            <option value="RO">Romanian</option>
+            <option value="RU">Russian</option>
+            <option value="SK">Slovak</option>
+            <option value="SL">Slovenian</option>
+            <option value="SV">Swedish</option>
+            <option value="TR">Turkish</option>
+            <option value="UK">Ukrainian</option>
+            <option value="ZH">Chinese (simplified)</option>
+        </select>
+    </div>
+    <div>
+        [translation result]
+    </div>
+    <div id="translation">
+        (The translation results are displayed here)
+    </div>
     <script src="sidebar.js"></script>
 </body>
 

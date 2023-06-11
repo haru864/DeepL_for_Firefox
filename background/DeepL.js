@@ -1,7 +1,7 @@
 let isMenuEnabled = false;
 let deeplAuthKey = 'not registered';
-const source_lang = 'EN';
-const target_lang = 'JA';
+let source_lang = 'EN';
+let target_lang = 'JA';
 
 function updateMenu() {
     browser.menus.removeAll();
@@ -14,7 +14,7 @@ function updateMenu() {
         let childMenuId1 = browser.menus.create({
             parentId: parentMenuId,
             id: "DeepL_translate_all",
-            title: "translate page",
+            title: "translate whole page (pending)",
             contexts: ["all"],
             icons: {
                 "16": "icons/translate-all-16.png",
@@ -41,6 +41,7 @@ function sendJsonToCurrentActiveTab(json) {
 }
 
 async function fetchFromDeepL(sentence) {
+    // console.log('fetch ' + source_lang + ' to ' + target_lang);
     const url = 'https://api-free.deepl.com/v2/translate?'
         + 'auth_key=' + deeplAuthKey
         + '&text=' + sentence
@@ -48,10 +49,11 @@ async function fetchFromDeepL(sentence) {
         + '&target_lang=' + target_lang;
     try {
         const response = await fetch(url);
+        // console.log('response:', response);
         const data = await response.json();
         return data.translations[0].text;
     } catch (error) {
-        console.error('Error:', error);
+        // console.error('Error:', error);
         return null;
     }
 }
@@ -68,6 +70,10 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendJsonToCurrentActiveTab(json);
     } else if (request.command === "updateAuthKey") {
         deeplAuthKey = request.newAuthKey;
+    } else if (request.command === "update_source_lang") {
+        source_lang = request.newSourceLang;
+    } else if (request.command === "update_target_lang") {
+        target_lang = request.newTargetLang;
     }
 });
 
@@ -80,7 +86,10 @@ browser.menus.onClicked.addListener(async (info, tab) => {
         const translation = await fetchFromDeepL(targetSentence);
         // console.log('translation: ' + translation);
         browser.sidebarAction.setPanel({ panel: 'sidebar/sidebar.html' });
-        browser.runtime.sendMessage({ "command": "show_translation", "translation": translation });
+        browser.runtime.sendMessage({
+            "command": "show_translation",
+            "translation": translation
+        });
     }
 });
 
