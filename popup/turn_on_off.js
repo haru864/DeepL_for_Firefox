@@ -1,9 +1,7 @@
-// send DeepL-Auth-Key to background script
-browser.runtime.sendMessage({ authKey: getDeeplAuthKey() });
-
 const radioStorageState = JSON.parse(localStorage.getItem("radioStorageState"));
 const turnOnRadio = document.getElementById('turn_on');
 const turnOffRadio = document.getElementById('turn_off');
+const authKeyButton = document.getElementById('auth_key');
 let currentRadioState = false;
 
 if (radioStorageState) {
@@ -21,11 +19,15 @@ if (currentRadioState == 'on') {
 turnOnRadio.addEventListener('click', () => {
     currentRadioState = 'on';
     localStorage.setItem("radioStorageState", JSON.stringify(currentRadioState));
-    browser.runtime.sendMessage({ command: 'turn_on' });
+    browser.runtime.sendMessage({ "command": "turn_on" });
 });
 
 turnOffRadio.addEventListener('click', () => {
     currentRadioState = 'off';
     localStorage.setItem("radioStorageState", JSON.stringify(currentRadioState));
-    browser.runtime.sendMessage({ command: 'turn_off' });
+    browser.runtime.sendMessage({ "command": "turn_off" });
+});
+
+authKeyButton.addEventListener('click', () => {
+    browser.runtime.sendMessage({ "command": "display_auth_key" });
 });

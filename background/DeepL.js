@@ -1,5 +1,5 @@
 let isMenuEnabled = false;
-let deeplAuthKey;
+let deeplAuthKey = 'not registered';
 
 function updateMenu() {
     browser.menus.removeAll();
@@ -32,6 +32,12 @@ function updateMenu() {
     }
 }
 
+function sendMessageToCurrentActiveTab(json) {
+    browser.tabs.query({ active: true, currentWindow: true }).then(tabs => {
+        browser.tabs.sendMessage(tabs[0].id, json);
+    });
+}
+
 browser.runtime.onMessage.addListener((message) => {
     if (message.command === "turn_on") {
         isMenuEnabled = true;
@@ -39,8 +45,11 @@ browser.runtime.onMessage.addListener((message) => {
     } else if (message.command === "turn_off") {
         isMenuEnabled = false;
         updateMenu();
-    } else if (message.authKey) {
-        deeplAuthKey = message.authKey;
+    } else if (message.command === "display_auth_key") {
+        let json = { "command": "displayAuthKey", "currentAuthKey": deeplAuthKey };
+        sendMessageToCurrentActiveTab(json);
+    } else if (message.command === "updateAuthKey") {
+        deeplAuthKey = message.newAuthKey;
     }
 });
 
